@@ -35,7 +35,7 @@ def add_new_last_layer(base_model, nb_classes):
       """
     x = base_model.output
     x = Dense(config.fc_size, activation='relu')(x) #new FC layer, random init
-    predictions = Dense(nb_classes, activation='softmax')(x) #new softmax layer
+    predictions = Dense(nb_classes, activation='softmax')(x) #new softmax layer; this a()(x) syntax is 'call a 'default' function with x argument on an object type a you just constructed'
     model = Model(inputs=base_model.input, outputs=predictions)
     return model
 
@@ -50,7 +50,7 @@ def setup_to_finetune(model):
         layer.trainable = False
     for layer in model.layers[NB_IV3_LAYERS_TO_FREEZE:]:
         layer.trainable = True
-    model.compile(optimizer=SGD(lr=0.001, momentum=0.9), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=SGD(lr=0.001, momentum=0.9), loss='categorical_crossentropy', metrics=['accuracy'])    #Learning rate must be quite slow in this case because established weights will be obliterated undesirably otherwise
 
 
 train_dir = "dogcat-data/train"
