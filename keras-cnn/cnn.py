@@ -41,6 +41,7 @@ model = Sequential()
 model.add(Conv2D(32,
                  (config.first_layer_conv_width, config.first_layer_conv_height),
                  input_shape=(28, 28, 1),
+                 padding="same",
                  activation='relu'))
 model.add(Dropout(config.dropout))
 model.add(Conv2D(64, config.first_layer_conv_width, config.first_layer_conv_height, activation="relu"))
