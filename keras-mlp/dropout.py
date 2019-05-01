@@ -35,7 +35,7 @@ num_classes = y_train.shape[1]
 # create model
 model=Sequential()
 model.add(Flatten(input_shape=(img_width,img_height)))
-model.add(Dropout(config.dropout))
+model.add(Dropout(config.dropout))     #Dropout zeroes out or neutralizes a set % (argument) of the input values, to inhibit 'cheating' on the model's part (i.e. bad habits learned because of training data's idiosyncrasies)
 model.add(Dense(config.hidden_nodes, activation='relu'))
 model.add(Dropout(config.dropout))
 model.add(Dense(num_classes, activation='softmax'))

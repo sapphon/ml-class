@@ -24,9 +24,9 @@ num_classes = y_train.shape[1]
 # create model
 model = Sequential()
 model.add(Flatten(input_shape=(img_width, img_height)))
-model.add(Dense(num_classes, activation='softmax'))
+model.add(Dense(num_classes, activation='softmax'))    #softmax is like sigmoid in that outputs are clamped to 0-1; it also ensures the sum of all outputs is 1
 model.compile(loss='categorical_crossentropy', optimizer='adam',
-              metrics=['accuracy'])
+              metrics=['accuracy'])    #this loss function is recommended for all multi-class classification problems; outputs will represent true probabilities
 
 # Fit the model
 model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test),

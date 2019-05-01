@@ -1,9 +1,8 @@
-import numpy as np
+import numpy
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Dropout
 from keras.utils import np_utils
-from keras.callbacks import Callback
 import json
 
 from wandb.keras import WandbCallback
@@ -12,8 +11,8 @@ import wandb
 run = wandb.init()
 config = run.config
 config.optimizer = "adam"
-config.epochs = 8
-config.dropout = 10
+config.epochs = 50
+config.dropout = 0.4
 config.hidden_nodes = 100
 
 # load data
@@ -33,16 +32,17 @@ labels = range(10)
 
 num_classes = y_train.shape[1]
 
-
 # create model
-model = Sequential()
-model.add(Flatten(input_shape=(img_width, img_height)))
+model=Sequential()
+model.add(Flatten(input_shape=(img_width,img_height)))
+model.add(Dropout(config.dropout))
 model.add(Dense(config.hidden_nodes, activation='relu'))
+model.add(Dropout(config.dropout))
 model.add(Dense(num_classes, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer=config.optimizer,
-              metrics=['accuracy'])
+                    metrics=['accuracy'])
+
 
 # Fit the model
 model.fit(X_train, y_train, validation_data=(X_test, y_test),
-          epochs=config.epochs,
-          callbacks=[WandbCallback(data_type="image", labels=labels)])
+        epochs=config.epochs, callbacks=[WandbCallback(data_type="image", labels=labels)])
